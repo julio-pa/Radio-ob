@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+import axios from 'axios';
+import { useState } from 'react';
 import './App.css';
-
 function App() {
+  const [busqueda, setBusqueda] = useState("");
+  const [listado, setListado] = useState([]);
+
+  const hazBusqueda = () => {
+    const url = `https://fr1.api.radio-browser.info/json/stations/byname/${busqueda}`;
+    axios.get(url)
+      .then(r => setListado(r.data))
+      .catch(e => console.error(e))
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Bienvenid@ a la app <span>OpenRadioCamp</span></h1>
+      <input type="text" placeholder='Escribe el nombre de la radio' value={busqueda} onChange={e => setBusqueda(e.target.value)}/>
+      <button onClick={hazBusqueda}>Buscar</button>
+      <section aria-label='listado-emisoras'>
+        {listado.length}
+      </section>
     </div>
   );
 }
