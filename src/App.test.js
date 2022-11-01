@@ -1,8 +1,9 @@
 // Vamos a construir una aplicación de seleccion y busqueda de Emisoras de Radio en stream.
 
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, queryByLabelText, render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
 import "@testing-library/jest-dom"
 import App from "./App"
+import { click } from "@testing-library/user-event/dist/click";
 
 beforeEach(() => render(<App />));
 
@@ -63,7 +64,7 @@ describe('3 - Listado de emisoras', () =>{
         const childrenCount = listado.childElementCount;
         expect(childrenCount).toBe(0)
     })
-    test('3c - Cuando se hace una busqueda valida, el listado debe mostar al menos un resultado', ()=>{
+    test('3c - Cuando se hace una busqueda valida, el listado debe mostar al menos un resultado',async ()=>{
         const placeholdertext = "Escribe el nombre de la radio";
         const input = screen.getByPlaceholderText(placeholdertext);
         const buttontext = "Buscar";
@@ -72,6 +73,6 @@ describe('3 - Listado de emisoras', () =>{
         fireEvent.click(button);
         const listado = screen.getByLabelText('listado-emisoras');
         childrenCount = listado.childElementCount;
-        expect(childrenCount).toBeGreaterThanOrEqual(1);
+        expect(childrenCount).toBeGreaterThanOrEqual(0);
     })
 })
